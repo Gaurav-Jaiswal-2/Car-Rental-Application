@@ -1,0 +1,19 @@
+package com.application.entities;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Reservation implements Serializable {
+	private long id;
+	private String carId;
+	private String customerId;
+	private LocalDate startDate;
+	private LocalDate endDate;
+}

@@ -1,0 +1,52 @@
+package com.application.seviceImpl;
+
+import com.application.entities.Car;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class CarService {
+
+	private static final String FILE_NAME = "cars.json";
+
+	@Autowired
+	private FileService<Car> service;
+
+	public void addCar(Car car) throws IOException {
+		List<Car> cars = service.loadData(FILE_NAME, new TypeReference<List<Car>>() {
+		});		cars.add(car);
+		service.saveData(cars, FILE_NAME);
+	}
+
+	public List<Car> getAllCars() throws IOException {
+		return service.loadData(FILE_NAME, new TypeReference<List<Car>>() {
+		});
+	}
+
+	public void updateCar(Car updatedCar) throws IOException {
+		List<Car> cars = service.loadData(FILE_NAME, new TypeReference<List<Car>>() {
+		});
+		cars = cars.stream().map(car -> car.getId().equals(updatedCar.getId()) ? updatedCar : car)
+				.collect(Collectors.toList());
+		service.saveData(cars, FILE_NAME);
+	}
+
+	public void deleteCar(String id) throws IOException {
+		List<Car> cars = service.loadData(FILE_NAME, new TypeReference<List<Car>>() {
+		});
+		cars = cars.stream().filter(car -> !car.getId().equals(id)).collect(Collectors.toList());
+		service.saveData(cars, FILE_NAME);
+	}
+
+	public Optional<Car> findCarById(String id) throws IOException {
+		List<Car> cars = service.loadData(FILE_NAME, new TypeReference<List<Car>>() {
+		});
+		return cars.stream().filter(car -> car.getId().equals(id)).findFirst();
+	}
+}

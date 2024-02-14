@@ -1,0 +1,38 @@
+package com.application.controllers;
+@Controller
+@RequestMapping("/booking")
+public class BookingController {
+
+	@Autowired
+	private BookingService bookingService;
+
+	@PostMapping
+	public ResponseEntity<Booking> addBooking(@RequestBody Booking booking) {
+		Booking savedBooking = bookingService.save(booking);
+		return ResponseEntity.ok(savedBooking);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Booking> updateBooking(@PathVariable Integer id, @RequestBody Booking booking) {
+		Booking updatedBooking = bookingService.update(id, booking);
+		return ResponseEntity.ok(updatedBooking);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Booking>> getBookings() {
+		List<Booking> bookings = bookingService.get();
+		return ResponseEntity.ok(bookings);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Booking> getBooking(@PathVariable Integer id) {
+		Booking booking = bookingService.get(id);
+		return ResponseEntity.ok(booking);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Boolean> deleteBooking(@PathVariable Integer id) {
+		Boolean deleted = bookingService.delete(id);
+		return ResponseEntity.ok(deleted);
+	}
+}

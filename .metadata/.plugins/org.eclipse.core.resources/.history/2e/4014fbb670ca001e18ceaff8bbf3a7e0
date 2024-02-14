@@ -1,0 +1,16 @@
+package com.application.entities;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Reservation {
+	private long id;
+	private String carId;
+	private String customerId;
+	private LocalDate startDate;
+	private LocalDate endDate;
+}

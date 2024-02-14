@@ -1,0 +1,5 @@
+package com.application.entities;
+
+public class Reservation {
+
+}

@@ -1,0 +1,19 @@
+package com.application.entities;
+
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Car implements Serializable {
+	private Integer id;
+	private String brand;
+	private Integer yearOfManufacturing;
+	private Integer rentalPrice;
+	private String model;
+	private Boolean isAvailable;
+}

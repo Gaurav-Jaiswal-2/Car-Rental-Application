@@ -1,0 +1,49 @@
+package com.application.seviceImpl;
+
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class FileService<T> implements Serializable {
+    private final String storageDirectory = "C:\\Users\\aryan\\OneDrive\\Desktop\\Car Rental Application\\CarRentalApplication\\fileStorage";
+    private final Path rootLocation;
+
+    public FileService() {
+        this.rootLocation = Paths.get(storageDirectory).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.rootLocation);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not initialize storage", e);
+        }
+    }
+
+    public void saveData(List<T> data, String fileName) throws IOException {
+        File file = this.rootLocation.resolve(fileName).toFile();
+        try (FileOutputStream fileOut = new FileOutputStream(file);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(data);
+        } catch (IOException e) {
+            throw new IOException("Error saving data to file: " + fileName, e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<T> loadData(String fileName) throws IOException, ClassNotFoundException {
+        File file = this.rootLocation.resolve(fileName).toFile();
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+        try (FileInputStream fileIn = new FileInputStream(file);
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            return (List<T>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new IOException("Error loading data from file: " + fileName, e);
+        }
+    }
+}

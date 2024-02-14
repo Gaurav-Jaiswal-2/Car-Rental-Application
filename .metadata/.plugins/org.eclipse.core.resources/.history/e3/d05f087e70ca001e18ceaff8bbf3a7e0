@@ -1,0 +1,11 @@
+package com.application.entities;
+
+import lombok.Data;
+
+@Data
+public class Car {
+	private String id;
+	private String make;
+	private String model;
+	private boolean isAvailable;
+}
